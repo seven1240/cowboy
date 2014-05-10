@@ -574,7 +574,7 @@ hixie76_location_port(_, Port) ->
 -spec hybi_challenge(binary()) -> binary().
 hybi_challenge(Key) ->
 	Bin = << Key/binary, "258EAFA5-E914-47DA-95CA-C5AB0DC85B11" >>,
-	base64:encode(crypto:sha(Bin)).
+	base64:encode(crypto:hash(sha, Bin)).
 
 -spec hybi_payload_length(0..16#7fffffffffffffff)
 	-> << _:7 >> | << _:23 >> | << _:71 >>.
