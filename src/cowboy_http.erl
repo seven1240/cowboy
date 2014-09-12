@@ -802,6 +802,9 @@ urldecode(Bin, OnError) when is_binary(Bin) ->
 	urldecode(Bin, <<>>, OnError).
 
 -spec urldecode(binary(), binary(), crash | skip) -> binary().
+urldecode(<<$%, $u, C3, C2, C1, C0, Rest/binary>>, Acc, OnError) ->
+	C = erlang:list_to_integer([C3, C2, C1, C0], 16),
+	urldecode(Rest, <<Acc/binary, (unicode:characters_to_binary([C]))/binary>>, OnError);
 urldecode(<<$%, H, L, Rest/binary>>, Acc, OnError) ->
 	G = unhex(H),
 	M = unhex(L),
