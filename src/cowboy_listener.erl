@@ -27,7 +27,7 @@
 -record(state, {
 	req_pools = [] :: pools(),
 	reqs_table :: ets:tid(),
-	queue = undefined :: queue(),
+	queue = undefined :: queue:queue(),
 	max_conns = undefined :: non_neg_integer(),
 	proto_opts :: any(),
 	proto_opts_vsn = 1 :: non_neg_integer()
@@ -208,7 +208,7 @@ move_pid(ConnPid, DestPool, Pools, ReqsTable) ->
 	[{SrcPool, SrcNbConns - 1}, {DestPool, DestNbConns}|Pools2].
 
 %% @private
--spec remove_pid(pid(), pools(), ets:tid(), queue()) -> {pools(), queue()}.
+-spec remove_pid(pid(), pools(), ets:tid(), queue:queue()) -> {pools(), queue:queue()}.
 remove_pid(Pid, Pools, ReqsTable, Queue) ->
 	{MonitorRef, Pool} = ets:lookup_element(ReqsTable, Pid, 2),
 	erlang:demonitor(MonitorRef, [flush]),
